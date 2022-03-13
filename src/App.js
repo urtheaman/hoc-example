@@ -6,8 +6,8 @@ import UserList from "./components/user-list/user-list.component";
 const App = () => {
   return (
     <div className="app">
-      <UserList />
-      <UserProfile />
+      <UserList dataSrc="https://jsonplaceholder.typicode.com/users" />
+      <UserProfile dataSrc="https://jsonplaceholder.typicode.com/posts?userId=1" />
     </div>
   );
 };

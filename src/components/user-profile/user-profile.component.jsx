@@ -1,32 +1,13 @@
 import React from "react";
+import fetchData from "../HOC/fetchData";
 
-class UserProfile extends React.Component {
-  state = {
-    posts: [],
-  };
-
-  componentDidMount() {
-    fetch("https://jsonplaceholder.typicode.com/posts?userId=1")
-      .then((res) => {
-        const result = res.json();
-        return result;
-      })
-      .then((post) => {
-        console.log(post);
-        this.setState({ posts: post });
-      })
-      .catch((err) => console.error(err));
-  }
-
-  render() {
-    const { posts } = this.state;
+const UserProfile = ({data}) => {
     return (
       <div className="container post-list">
-        {posts
-          .filter((post, index) => index < 4)
+        {data
           .map((post) => {
             return (
-              <div key={posts.id}>
+              <div key={post.id}>
                 <h1>{post.title}</h1>
                 <p>{post.body}</p>
               </div>
@@ -35,6 +16,6 @@ class UserProfile extends React.Component {
       </div>
     );
   }
-}
 
-export default UserProfile;
+
+export default fetchData(UserProfile);
