@@ -1,19 +1,40 @@
-import React from 'react';
+import React from "react";
 
-import withData from '../../with-data';
+class UserProfile extends React.Component {
+  state = {
+    posts: [],
+  };
 
-const UserProfile = ({ data, name, email }) => (
-  <div className='container'>
-    <h1>{name}</h1>
-    <h2>{email}</h2>
-    Posts:
-    {data.map(post => (
-      <div className='post' key={post.id}>
-        <h1>{post.title}</h1>
-        <p> {post.body} </p>
+  componentDidMount() {
+    fetch("https://jsonplaceholder.typicode.com/posts?userId=1")
+      .then((res) => {
+        const result = res.json();
+        return result;
+      })
+      .then((post) => {
+        console.log(post);
+        this.setState({ posts: post });
+      })
+      .catch((err) => console.error(err));
+  }
+
+  render() {
+    const { posts } = this.state;
+    return (
+      <div className="container post-list">
+        {posts
+          .filter((post, index) => index < 4)
+          .map((post) => {
+            return (
+              <div key={posts.id}>
+                <h1>{post.title}</h1>
+                <p>{post.body}</p>
+              </div>
+            );
+          })}
       </div>
-    ))}
-  </div>
-);
+    );
+  }
+}
 
-export default withData(UserProfile);
+export default UserProfile;

@@ -1,17 +1,40 @@
-import React from 'react';
+import React from "react";
 
-import withData from '../../with-data';
+class UserList extends React.Component {
+  state = {
+    users: [],
+  };
 
-const UserList = ({ data }) => (
-  <div className='container user-list'>
-    <h1> Users List </h1>
-    {data.map(user => (
-      <div className='post' key={user.id}>
-        <h1> {user.name} </h1>
-        <h2> {user.email} </h2>
+  componentDidMount() {
+    fetch("https://jsonplaceholder.typicode.com/users")
+      .then((res) => {
+        const result = res.json();
+        return result;
+      })
+      .then((user) => {
+        console.log(user);
+        this.setState({ users: user });
+      })
+      .catch((err) => console.error(err));
+  }
+
+  render() {
+    const { users } = this.state;
+    return (
+      <div className="container user-list">
+        {users
+          .filter((post, index) => index < 6)
+          .map((user) => {
+            return (
+              <div key={users.id}>
+                <h1>{user.name}</h1>
+                <h2>{user.email}</h2>
+              </div>
+            );
+          })}
       </div>
-    ))}
-  </div>
-);
+    );
+  }
+}
 
-export default withData(UserList);
+export default UserList;
